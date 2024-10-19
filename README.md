@@ -13,7 +13,7 @@ Impartido por: David Ragel Díaz-Jara
 
 # Metodología práctica.
 - Traeté tu portátil, a ser posible con nvidia.
-- Tódo el código en github.
+- Todo el código en github.
 - Propndré retos concretos a los que quieran colaborar.
 - Alcance: Hasta donde permitan estas dos horas.
 - Si gusta, repetiré periódicamente la experiencia.
