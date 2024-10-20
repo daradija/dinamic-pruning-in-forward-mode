@@ -184,6 +184,8 @@ class NumbaNN:
 				data2=sigmoide(data2)
 				for idx in range(self.weights.shape[1]):
 					nn_data2[idx]=nn_data2[idx].sigmoid()
+					# link=(4 * np.cosh(v.value / 2)**2)
+					# v.forward[name]+=value / link
 
 				# calculo de gradiente del sigmoid
 			

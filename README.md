@@ -61,5 +61,13 @@ Es el eterno dilema entre memoria y tiempo de programación dinámica.
 - Hay una función de activación, que de momento podemos ignorar el objetivo es ver la estructura de memoria que necesitamos, no que contiene.
 - EL OBJETIVO ES SABER LAS DERIVADAS DE LOS PESOS PRECEDENTES
 ![Screenshot-2024-10-20_05_08_03](Screenshot-2024-10-20_05_08_03.png)
+- Para la explicación no me interesa cómo es la derivada/gradiente, sino cuantos cálculos he de guardar.
+## ¿Cómo se utilizan lo gradientes?
+* En un entrenamiento al final tenemos **y'** e **y**. 
+* Si agrupamos varios resultados (batch) podemos calcular una función de pérdida (L)
+
+$$
+L = \frac{1}{N} \sum_{i=1}^{N} \left( y'_i - y_i \right)^2
+$$
 
 ## Sobrecarga de operadores en python.
