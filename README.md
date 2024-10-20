@@ -98,3 +98,90 @@ $$
 ## Sobrecarga de operadores en python.
 * La autodiferenciación simplifica los cálculos.
 * Es como usar un número complejo, salvo que hay "resolución" partes imaginarias. 
+
+
+Aquí tienes un conjunto de instrucciones detalladas para registrarse en GitHub, generar una clave SSH, subirla a GitHub, configurar Git y finalmente clonar un repositorio usando una clave SSH.
+
+### 1. Registro en GitHub
+1. Ve a [GitHub](https://github.com).
+2. Haz clic en **Sign up**.
+3. Ingresa tu dirección de correo electrónico, crea una contraseña y elige un nombre de usuario.
+4. Sigue los pasos para verificar tu correo y completar el proceso de registro.
+
+### 2. Generar una clave SSH
+1. Abre una terminal (en Linux o macOS) o Git Bash (en Windows).
+2. Escribe el siguiente comando para generar una clave SSH:
+   ```bash
+   ssh-keygen -t rsa -b 4096 -C "tu_correo@ejemplo.com"
+   ```
+   - Sustituye `"tu_correo@ejemplo.com"` por el correo que usaste en GitHub.
+3. Te pedirá la ubicación para guardar la clave, presiona **Enter** para aceptar la ubicación predeterminada.
+4. Si deseas, puedes agregar una contraseña para proteger la clave, o simplemente presiona **Enter** para omitir este paso.
+
+   Esto generará dos archivos: una clave privada y una clave pública. La clave pública tendrá la extensión `.pub`.
+
+### 3. Añadir la clave SSH a GitHub
+1. Abre la clave pública generada. Puedes hacerlo con el siguiente comando:
+   ```bash
+   cat ~/.ssh/id_rsa.pub
+   ```
+2. Copia el contenido que se muestra en la terminal.
+3. Ve a GitHub y sigue estos pasos:
+   - Haz clic en tu foto de perfil (esquina superior derecha) y selecciona **Settings**.
+   - En el menú de la izquierda, selecciona **SSH and GPG keys**.
+   - Haz clic en el botón **New SSH key**.
+   - Dale un título a la clave (puede ser el nombre de tu computadora o cualquier identificador).
+   - Pega la clave pública que copiaste en el campo correspondiente.
+   - Haz clic en **Add SSH key**.
+
+### 4. Configurar Git
+1. Abre la terminal o Git Bash y configura tu nombre de usuario y correo electrónico para Git:
+   ```bash
+   git config --global user.name "Tu Nombre"
+   git config --global user.email "tu_correo@ejemplo.com"
+   ```
+2. Ahora configura Git para usar la clave SSH recién creada. Si Git no puede encontrar tu clave por defecto, puedes añadirla al agente SSH:
+   ```bash
+   eval "$(ssh-agent -s)"
+   ssh-add ~/.ssh/id_rsa
+   ```
+
+### 5. Clonar el repositorio usando SSH
+1. En la terminal, navega al directorio donde deseas clonar el repositorio:
+   ```bash
+   cd /ruta/del/directorio
+   ```
+2. Clona el repositorio usando la URL SSH:
+   ```bash
+   git clone git@github.com:daradija/dinamic-pruning-in-forward-mode.git
+   ```
+
+
+¡Sí, hay una forma más simple! Visual Studio Code es lo suficientemente inteligente como para detectar el tipo de proyecto en el que estás trabajando y sugerirte automáticamente las extensiones necesarias. Aquí te explico cómo hacerlo de manera más sencilla:
+
+### 1. Instalar Visual Studio Code
+1. Ve a [Visual Studio Code](https://code.visualstudio.com/).
+2. Descarga e instala la versión adecuada para tu sistema operativo (Windows, macOS o Linux) siguiendo las instrucciones en pantalla.
+
+### 2. Instalar Python (si no lo tienes)
+1. Descarga Python desde [python.org](https://www.python.org/downloads/).
+2. Instala Python asegurándote de marcar la opción **Add Python to PATH** durante la instalación (en Windows).
+
+### 3. Abrir un proyecto o archivo Python en Visual Studio Code
+1. Abre **Visual Studio Code**.
+2. Ve al menú **File** y selecciona **Open Folder** o **Open File**.
+   - Selecciona la carpeta de tu proyecto Python o un archivo `.py`.
+
+### 4. Visual Studio Code detectará automáticamente Python
+1. Al abrir el archivo o proyecto, Visual Studio Code detectará automáticamente que estás trabajando con Python y te sugerirá instalar las extensiones necesarias.
+   - Una ventana emergente aparecerá en la esquina inferior derecha preguntando si deseas instalar la extensión **Python**.
+2. Haz clic en **Install** para que Visual Studio Code instale la extensión oficial de Python.
+
+# autofore.py
+Para entender las derivadas remito a:
+https://colah.github.io/posts/2015-08-Backprop/ 
+![Screenshot-2024-10-20_12_17_29](Screenshot-2024-10-20_12_17_29.png)
+
+![Screenshot-2024-10-20_12_18_31](Screenshot-2024-10-20_12_18_31.png)
+
+![Screenshot-2024-10-20_12_22_24](Screenshot-2024-10-20_12_22_24.png)

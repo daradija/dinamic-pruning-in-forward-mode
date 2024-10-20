@@ -4,7 +4,6 @@
 
 import random 
 import math
-import numpy as np
 
 class AutoFore:
 	def __init__(self,gaf=None,prunning=0):
@@ -208,10 +207,10 @@ class Variable:
 
 	def sigmoid(self):
 		v=self.nn.midVar()
-		v.value=1 / (1 + np.exp(-self.value))
+		v.value=1 / (1 + math.exp(-self.value))
 		for name,value in enumerate(self.forward):
 			
-			link=(4 * np.cosh(v.value / 2)**2)
+			link=(4 * math.cosh(v.value / 2)**2)
 			v.forward[name]+=value / link
 		return v
 
@@ -253,7 +252,8 @@ class GeneticAutoFore:
 	def __init__(self,populationSize):
 		self.population=[AutoFore(gaf=self) for i in range(populationSize)]
 
-if __name__ == '__main__':
+def ejemplo_red_neuronal_polinomios():
+
 	nn=AutoFore()
 
 	# A*B=C
@@ -277,7 +277,7 @@ if __name__ == '__main__':
 	A=[[random.random() for j in range(x)] for i in range(z)]
 
 	Ct=[[fs[yy](*A[zz]) for zz in range(z)] for yy in range(y)]
-	# C= transpose(Ct)
+
 	C=[[Ct[j][i] for j in range(y)] for i in range(z)]
 
 	B=[[nn.val(random.random()).derivable() for j in range(y)] for i in range(x)]
@@ -304,7 +304,7 @@ if __name__ == '__main__':
 
 				#print("c",c.value)
 				error=c-cp.value
-				errorTotal+=abs(error)
+				errorTotal+=error*error
 
 				for b1 in B:
 					b=b1[yy]
@@ -325,4 +325,25 @@ if __name__ == '__main__':
 		if totalPendientes==0:
 			break
 		
+
+def ejemplo_simple():
+	# Basado en el blog de colah
+	# https://colah.github.io/posts/2015-08-Backprop/
+	nn=AutoFore()
+
+	a=nn.val(2)
+	b=nn.val(1)
 	
+	b.derivable()
+
+	c=a+b
+	d=b+1
+	e=c*d
+
+	print("e value",e.value)
+	print("de/db",e.get(b))
+
+
+if __name__ == '__main__':
+	#ejemplo_red_neuronal_polinomios()
+	ejemplo_simple()
