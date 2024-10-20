@@ -45,7 +45,10 @@ Impartido por: David Ragel Díaz-Jara
   - Construcción de una librería.
 
 
-# Es más fácil entender una red neuronal usando autodiferenciación y modo forward.
+# Explicación de una Red Neuronal en modo Forward.
+- Es más fácil entender una red neuronal usando autodiferenciación y modo forward.
+- No incluyo cálculo de derivadas, porque no es importante.
+  - Quedaros con que la derivada de una multiplicación es una multiplicación.
 - A continuación explicamos algo equivalente al algoritmo de backpropagation que requiere dos pasadas.
 - El modo forward requiere una pasada. Pero la estructura de datos es mas compleja.
 
@@ -70,4 +73,28 @@ $$
 L = \frac{1}{N} \sum_{i=1}^{N} \left( y'_i - y_i \right)^2
 $$
 
+* Minimizar la función de pérdida significa minimizar el error. 
+* Sabemos la relación de los pesos **w** con respecto a L.
+* Podemos cambiar ligeramente el valor de los pesos y podremos minimizar iterativamente el error.
+* Un signo positivo en la misma dirección.
+* Un gradiente alto afecta mucho.
+* Se realiza proporcional al error.
+## Hipótesis 
+* ¿PODEMOS IGNORAR LOS GRADIENTES PEQUEÑOS?
+* ¿PODEMOS IGNORAR LA CORRECCIÓN DE LOS PESOS QUE AFECTAN MENOS?
+## Propuesta
+* Realizar un prunning dinámico y solo quedarse con los gradientes más significativos (mayor valor absoluto).
+* Si el número de gradientes es fijo equivale al tamaño de una palabra del procesador.
+  * Mayor tamaño, mayor precisión.
+* Las operaciones de derivadas se pueden hacer en paralelo.
+
+# Entender las limitaciones de tensorflow/NVIDIA.
+## ¿Cuánto es paralelizable? ¿Cuántas multiplicaciones se pueden realizar a la vez? 
+- neuronas, tamaño de **x**, entrenamientos (batch), (¿capas? no por caché)
+  - Por ejemplo en nmist se usa solo un 30% GPU.
+- ¿Qué latencia tiene llamar a un kernel 20 ms al menos?
+- No es eficiente para procesos en tiempo real. Existe TensorRT de NVidia.
+- Estamos proponiendo por cada multiplicación realizar 1+resolución?
 ## Sobrecarga de operadores en python.
+* La autodiferenciación simplifica los cálculos.
+* Es como usar un número complejo, salvo que hay "resolución" partes imaginarias. 

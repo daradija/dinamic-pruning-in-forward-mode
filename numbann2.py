@@ -184,10 +184,23 @@ class NumbaNN:
 				data2=sigmoide(data2)
 				for idx in range(self.weights.shape[1]):
 					nn_data2[idx]=nn_data2[idx].sigmoid()
+
+					data2[idx]=1 / (1 + np.exp(data2[idx]))
+					link=(4 * np.cosh(data2[idx] / 2)**2)
+					
 					# link=(4 * np.cosh(v.value / 2)**2)
 					# v.forward[name]+=value / link
+					for k,g in enumerate(gdata2[i]):
+						gdata2[i][k]=g/link
+						
+						# como hacer el assert?
+						# id -> localiza gradiente
+						tupla=self.wid2tuple[gid2[i][k]]
+						w=self.nn_weights[tupla[0]][tupla[1]][tupla[2]]
+						print(gdata2[i][k],nn_data2[idx].get(w))
+						assert abs(gdata2[i][k]-nn_data2[idx].get(w))<0.001
 
-				# calculo de gradiente del sigmoid
+
 			
 			# pon data, data2, gdata, gdata2, gid, gid2 para ello crea variable.
 			fromBuffer,toBuffer=toBuffer,fromBuffer
