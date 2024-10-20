@@ -312,13 +312,13 @@ def ejemplo_red_neuronal_polinomios():
 
 				for b1 in B:
 					b=b1[yy]
-					b.delta-=error2.get(b)
+					b.delta+=error2.get(b)
 
 			
 			epsilon=0.01
 			for b1 in B:
 				b=b1[yy]
-				b.value+=b.delta*epsilon
+				b.value-=b.delta*epsilon
 			# 	print(b.value,end=" ")
 			# print()
 

@@ -194,6 +194,71 @@ https://colah.github.io/posts/2015-08-Backprop/
   - Desarrollar sistemas más rápidos (pruebas unitarias).
   - Aprender.
 
+En el ejemplo_red_neuronal_polinomios:
+```python
+    # SISTEMA DE ECUACIONES y dimensiones
 
+    # A   * B   = C
+    # z*x * x*y = z*y
+    x=2
+    y=4
+    z=4
+    
+    def f0(*args):
+        return sum(args)
+    def f1(a,b):
+        return 1*a+2*b
+    def f3(a,b):
+        return 10*a+2*b
+    def f4(a,b):
+        return 2*a+5*b
+```
 
+Se verifica que el sistema converge:
+```
+1.0 1.0
+1.0 2.0
+10.0 2.0
+2.0 5.0
+Tiempo de ejecución:  0.4389042854309082
+```
+
+```python
+  error=cp-c
+  error2=error*error
+  errorTotal+=error2.value
+  
+  for b1 in B:
+      b=b1[yy]
+      b.delta+=error2.get(b)
+
+  epsilon=0.01
+  for b1 in B:
+      b=b1[yy]
+      b.value-=b.delta*epsilon
+```
+Así se computa la función del error.
+
+Nota: No se ha utilizado un lote. Lo ideal es acumular varios ejemplos y luego aplicarlo.
+
+# Prunning
+Ejecución de simpleTensorFlow.py
+
+```python
+    model=Sequential()
+    model.add(Dense(5, input_dim=ancho, activation='sigmoid'))
+    for c in range(1):
+        model.add(Dense(5, activation='sigmoid'))
+    model.add(Dense(1))
+    model.compile(optimizer=SGD(), loss='mean_squared_error')
+````
+
+![Screenshot-2024-10-20_17_45_07](Screenshot-2024-10-20_17_45_07.png)
+
+* Tarda x10 567s vs 6,5 s de TensorFlow. (código python)
+* Suele coincidir mínimo trainning con real.
+  * Red neuronal de 61 parámetros.
+  * Se testean 2,4,8,16,32,64, tamaño completo.
+* DinamicPrunningloss: 0.1763 - val_loss: 0.1557
+* TensorFlowloss: 0.2588 - val_loss: 0.2454
 

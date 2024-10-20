@@ -7,7 +7,7 @@ from tensorflow.keras.layers import Dense
 from tensorflow.keras.optimizers import SGD
 import numpy as np
 from sklearn.model_selection import train_test_split
-from numbann2 import NumbaNN
+from numbann import NumbaNN
 import os
 import keras
 import time
@@ -63,7 +63,7 @@ else:
     epochs=50
     
     its=[]
-    for prunning in [16]: #[2, 4, 8, 16, 32, 64, 0]:
+    for prunning in [2, 4, 8, 16, 32, 64, 0]:
         nn=NumbaNN(model,prunning=prunning)
         nns.append(nn)
         its.append(nn.fit(X_train, y_train, epochs=epochs, batch_size=10, verbose=1,validation_data=(X_test,y_test))())
