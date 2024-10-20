@@ -43,3 +43,23 @@ Impartido por: David Ragel Díaz-Jara
   - Soñemos con una alternativa mas eficiente que NVIDIA.
   - Potencial de artículos. Revisión de todas las arquitecturas de redes neuronales.
   - Construcción de una librería.
+
+
+# Es más fácil entender una red neuronal usando autodiferenciación y modo forward.
+- A continuación explicamos algo equivalente al algoritmo de backpropagation que requiere dos pasadas.
+- El modo forward requiere una pasada. Pero la estructura de datos es mas compleja.
+
+Es el eterno dilema entre memoria y tiempo de programación dinámica.
+
+"Si quieres algo mas rápido gasta memoria".
+
+¿Qué memoria debemos incorporar?
+
+![Screenshot-2024-10-20_04_33_42](Screenshot-2024-10-20_04_33_42.png)
+- Cada neurona tiene un vector de pesos **w**.
+- Realiza un producto escalar entre la entrada **x** y los pesos **w**
+- Hay una función de activación, que de momento podemos ignorar el objetivo es ver la estructura de memoria que necesitamos, no que contiene.
+- EL OBJETIVO ES SABER LAS DERIVADAS DE LOS PESOS PRECEDENTES
+![Screenshot-2024-10-20_05_08_03](Screenshot-2024-10-20_05_08_03.png)
+
+## Sobrecarga de operadores en python.
