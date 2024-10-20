@@ -185,3 +185,15 @@ https://colah.github.io/posts/2015-08-Backprop/
 ![Screenshot-2024-10-20_12_18_31](Screenshot-2024-10-20_12_18_31.png)
 
 ![Screenshot-2024-10-20_12_22_24](Screenshot-2024-10-20_12_22_24.png)
+
+* Autofore es muy cómodo.
+* Se desarrolló haciendo cálculo simbólico.
+  * Tengo una versión con la segunda derivada
+  * No la he incluido porque no aporta.
+* Se usa para:
+  - Desarrollar sistemas más rápidos (pruebas unitarias).
+  - Aprender.
+
+
+
+

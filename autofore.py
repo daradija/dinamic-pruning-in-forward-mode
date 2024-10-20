@@ -4,6 +4,7 @@
 
 import random 
 import math
+import time
 
 class AutoFore:
 	def __init__(self,gaf=None,prunning=0):
@@ -256,7 +257,9 @@ def ejemplo_red_neuronal_polinomios():
 
 	nn=AutoFore()
 
-	# A*B=C
+	# SISTEMA DE ECUACIONES y dimensiones
+
+	# A   * B   = C
 	# z*x * x*y = z*y
 	x=2
 	y=4
@@ -271,7 +274,7 @@ def ejemplo_red_neuronal_polinomios():
 	def f4(a,b):
 		return 2*a+5*b
 	
-	fs=[f1,f0,f3,f4]
+	fs=[f0,f1,f3,f4]
 	assert len(fs)==y
 	
 	A=[[random.random() for j in range(x)] for i in range(z)]
@@ -303,12 +306,13 @@ def ejemplo_red_neuronal_polinomios():
 					cp+=B[xx][yy]*a[xx]
 
 				#print("c",c.value)
-				error=c-cp.value
-				errorTotal+=error*error
+				error=cp-c
+				error2=error*error
+				errorTotal+=error2.value
 
 				for b1 in B:
 					b=b1[yy]
-					b.delta+=cp.get(b)*error
+					b.delta-=error2.get(b)
 
 			
 			epsilon=0.01
@@ -318,11 +322,18 @@ def ejemplo_red_neuronal_polinomios():
 			# 	print(b.value,end=" ")
 			# print()
 
-			if errorTotal<0.001:
+			#print("errorTotal",errorTotal)	
+
+			if errorTotal<0.0001:
 				completado[yy]=True
 				totalPendientes-=1
 				break
 		if totalPendientes==0:
+			# print B transpuesta
+			for yy in range(y):
+				for xx in range(x):
+					print(round(B[xx][yy].value,1),end=" ")
+				print()
 			break
 		
 
@@ -345,5 +356,8 @@ def ejemplo_simple():
 
 
 if __name__ == '__main__':
-	#ejemplo_red_neuronal_polinomios()
-	ejemplo_simple()
+	start=time.time()
+	ejemplo_red_neuronal_polinomios()
+	#ejemplo_simple()
+
+	print("Tiempo de ejecución: ",time.time()-start)
