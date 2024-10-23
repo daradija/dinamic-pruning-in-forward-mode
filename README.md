@@ -354,6 +354,7 @@ con corpus de 400:
 # Conclusiones
 * Potencial de aceleración.
 * No solo es aceleración, sino mejora la validación.
+* Hay que hacer en hardware la ordenacion (toperización/suma) de dos listas.
 
 # Itinerario
 - Acelerar la librería de python.
