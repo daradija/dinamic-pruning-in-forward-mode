@@ -230,7 +230,10 @@ class NumbaNN:
 						print(f"Prunning: {self.nn.prunning}, Epoch: {epoch+1}, Loss: {loss2}, Validation Loss: {loss3}")
 					else:
 						print(f"Prunning: {self.nn.prunning}, Epoch: {epoch+1}, Loss: {loss2}")
-				yield 
+				if validation_data is not None:
+					yield (epoch+1,loss2,loss3)
+				else:
+					yield (epoch+1,loss2)
 		return f
 
 	def evaluate(self, X_test, y_test):

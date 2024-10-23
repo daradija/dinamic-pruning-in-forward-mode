@@ -255,10 +255,23 @@ Ejecución de simpleTensorFlow.py
 
 ![Screenshot-2024-10-20_17_45_07](Screenshot-2024-10-20_17_45_07.png)
 
-* Tarda x10 567s vs 6,5 s de TensorFlow. (código python)
 * Suele coincidir mínimo trainning con real.
   * Red neuronal de 61 parámetros.
   * Se testean 2,4,8,16,32,64, tamaño completo.
 * DinamicPrunningloss: 0.1763 - val_loss: 0.1557
 * TensorFlowloss: 0.2588 - val_loss: 0.2454
 
+Comparación transversar azul 16 registro. naranja sin limitacion. 250 épocas.
+![Screenshot-2024-10-22_10_33_00](Screenshot-2024-10-22_10_33_00.png)
+
+# Potencial de una FPGA
+* Tarda x10 567s vs 6,5 s de TensorFlow. (código python)
+  - ¿Se puede acelerar?
+  - Multiplicaciones de una capa:
+    - 10 batch x  5 x 5 ancho x 17 registros = 4250 multiplicaciones.
+ * Zynq Z2: 220 multiplicaciones en paralelo. 100 Mhz.
+   - 4250 => 0.0424 ms.
+     - 2 capas, 5 ejecuciones => 0.424 ms frente a los 6500 ms de Tensorflow.
+
+# Ejemplo LLM
+Modelos grandes como GPT-3 (con 175 mil millones de parámetros) pueden tardar semanas o meses en entrenarse, incluso utilizando cientos o miles de GPUs o TPUs en paralelo.

@@ -6,6 +6,8 @@ import random
 import math
 import time
 
+
+
 class AutoFore:
 	def __init__(self,gaf=None,prunning=0):
 		self.var2id={}

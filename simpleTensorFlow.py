@@ -11,6 +11,25 @@ from numbann import NumbaNN
 import os
 import keras
 import time
+import matplotlib.pyplot as plt
+
+def report(pruning,loss,val_loss):
+
+    # Crear la gráfica
+    plt.figure(figsize=(8, 5))
+    plt.plot(pruning, loss, label='Training Loss', marker='o')
+    plt.plot(pruning, val_loss, label='Validation Loss', marker='s')
+
+    # Añadir títulos y etiquetas
+    plt.title('Training vs Validation Loss with Pruning')
+    plt.xlabel('Pruning Level')
+    plt.ylabel('Loss')
+    plt.legend()
+    plt.grid(True)
+    plt.xticks(pruning)
+
+    # Mostrar la gráfica
+    plt.show()
 
 
 #np.random.seed(42)  
@@ -32,7 +51,7 @@ def createModel(capas=1):
     model.add(Dense(1))
     model.compile(optimizer=SGD(), loss='mean_squared_error')
     model.summary()
-    print(model.get_weights())
+    # print(model.get_weights())
     return model
 
 
@@ -60,23 +79,41 @@ else:
     # weights = model.get_weights()	
     # print(weights)	
 
-    epochs=50
+    epochs=250
+
+    #registers=[2, 4, 8, 16, 32, 64, 0]
+    registers=[16,0]
+    loss=[0]*len(registers)
+    val_loss=[0]*len(registers)
+    trasversal_1=[]
+    trasversal_2=[]
     
     its=[]
-    for prunning in [2, 4, 8, 16, 32, 64, 0]:
+    for prunning in registers:
         nn=NumbaNN(model,prunning=prunning)
         nns.append(nn)
-        its.append(nn.fit(X_train, y_train, epochs=epochs, batch_size=10, verbose=1,validation_data=(X_test,y_test))())
-   
+        its.append(nn.fit(X_train, y_train, epochs=epochs, batch_size=10, verbose=1,validation_data=(X_test,y_test),shuffle=True)())
     start=time.time()
     cont=True
     while cont:
         try:
-            for it in its:
-                next(it)
+            for i,it in enumerate(its):
+                epoch,loss_,val_loss_=next(it)
+                loss[i]=loss_
+                val_loss[i]=val_loss_
+                if 16==registers[i]:
+                    trasversal_1.append(val_loss_)
+                if 0==registers[i]:
+                    trasversal_2.append(val_loss_)
         except StopIteration:
             cont=False
     print("Tiempo de entrenamiento1: ",time.time()-start)
+    
+    report(range(epochs),trasversal_1,trasversal_2)
+
+    registers[-1]=128
+    report(registers,loss,val_loss)
+        
     start=time.time()
     model.fit(X_train, y_train, epochs=epochs, batch_size=10, verbose=1,validation_data=(X_test, y_test))
     print("Tiempo de entrenamiento2: ",time.time()-start)
@@ -108,3 +145,4 @@ yp=nn2.predict(x)
 predicciones = model.predict(X_test)
 for i in range(len(yp)):
     print(f'Numba: {yp[i][0].value} \nKeras: {predicciones[i][0]} \nReal: {y_test[i][0]}\n')
+
