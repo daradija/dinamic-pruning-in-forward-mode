@@ -58,13 +58,16 @@ Es el eterno dilema entre memoria y tiempo de programación dinámica.
 
 ¿Qué memoria debemos incorporar?
 
-![Screenshot-2024-10-20_04_33_42](Screenshot-2024-10-20_04_33_42.png)
+![Screenshot-2024-10-23_18_51_15](Screenshot-2024-10-23_18_51_15.png)
+
 - Cada neurona tiene un vector de pesos **w**.
 - Realiza un producto escalar entre la entrada **x** y los pesos **w**
+![Screenshot-2024-10-23_18_52_49](Screenshot-2024-10-23_18_52_49.png)
+
 - Hay una función de activación, que de momento podemos ignorar el objetivo es ver la estructura de memoria que necesitamos, no que contiene.
-- EL OBJETIVO ES SABER LAS DERIVADAS DE LOS PESOS PRECEDENTES
-![Screenshot-2024-10-20_05_08_03](Screenshot-2024-10-20_05_08_03.png)
-- Para la explicación no me interesa cómo es la derivada/gradiente, sino cuantos cálculos he de guardar.
+  - EL OBJETIVO NO ES SABER LAS DERIVADAS DE LOS PESOS 
+  - Para la explicación no me interesa cómo es la derivada/gradiente, sino cuantos cálculos he de guardar.
+  - La función de activación no cambia el número de gradientes/registros.
 
 ![2024-10-23_18-41-56](media/2024-10-23_18-41-56.png)
 - Aquí lo importante es entender que:
