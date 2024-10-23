@@ -113,8 +113,8 @@ else:
     rtrasversal=Report(range(1,epochs+1),registers)
     
     its=[]
-    for prunning in registers:
-        nn=NumbaNN(model,prunning=prunning)
+    for pruning in registers:
+        nn=NumbaNN(model,pruning=pruning)
         nns.append(nn)
         its.append(nn.fit(X_train, y_train, epochs=epochs, batch_size=10, verbose=1,validation_data=(X_test,y_test),shuffle=True)())
     start=time.time()

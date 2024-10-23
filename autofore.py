@@ -2,19 +2,15 @@
 # Que a su vez es neroprogramming4.py renombrada como autofore
 # Pero con avances.
 
-import random 
-import math
-import time
-
-
+import random,math,time
 
 class AutoFore:
-	def __init__(self,gaf=None,prunning=0):
+	def __init__(self,gaf=None,pruning=0):
 		self.var2id={}
 		self.id2var={}
 		self.nominative=[]
 		self.gaf=gaf
-		self.prunning=prunning
+		self.pruning=pruning
 
 	def vector(self,x,y):
 		if isinstance(x,Variable):
@@ -87,10 +83,10 @@ class Variable:
 		self.nn=nn
 		self.value = 0
 
-	def prunning(self):
-		if self.nn.prunning==0:
+	def pruning(self):
+		if self.nn.pruning==0:
 			return 
-		topDelta=[0]*self.nn.prunning
+		topDelta=[0]*self.nn.pruning
 		for delta in self.forward:
 			adelta=abs(delta)
 			for m,td in enumerate(topDelta):

@@ -9,13 +9,13 @@ from autofore import AutoFore
 drnumba=DrNumba("kernel.py")
 
 class NumbaNN:
-	def __init__(self,model, prunning=0):
-		self.resolution=prunning
+	def __init__(self,model, pruning=0):
+		self.resolution=pruning
 		self.concurrencia=20 # Máximas reedes neuronales que resuelven. Ideal que sea superior al batch.
 		self.buffer=2
 
 		self.dr=drnumba.dr(self)
-		self.nn=AutoFore(prunning=prunning)
+		self.nn=AutoFore(pruning=pruning)
 
 		weights = model.get_weights()
 
@@ -177,7 +177,7 @@ class NumbaNN:
 							id=aux
 				
 
-				nn_c.prunning()
+				nn_c.pruning()
 				nn_data2.append(nn_c)
 
 			if self.activation[i]==1: # sigmoid
@@ -293,9 +293,9 @@ class NumbaNN:
 					loss2=loss2/divisor0
 					if validation_data is not None:
 						loss3=self.evaluate(validation_data[0],validation_data[1])
-						print(f"Prunning: {self.nn.prunning}, Epoch: {epoch+1}, Loss: {loss2}, Validation Loss: {loss3}")
+						print(f"Pruning: {self.nn.pruning}, Epoch: {epoch+1}, Loss: {loss2}, Validation Loss: {loss3}")
 					else:
-						print(f"Prunning: {self.nn.prunning}, Epoch: {epoch+1}, Loss: {loss2}")
+						print(f"Pruning: {self.nn.pruning}, Epoch: {epoch+1}, Loss: {loss2}")
 				yield 
 		return f
 

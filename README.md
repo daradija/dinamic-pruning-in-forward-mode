@@ -65,6 +65,10 @@ Es el eterno dilema entre memoria y tiempo de programación dinámica.
 - EL OBJETIVO ES SABER LAS DERIVADAS DE LOS PESOS PRECEDENTES
 ![Screenshot-2024-10-20_05_08_03](Screenshot-2024-10-20_05_08_03.png)
 - Para la explicación no me interesa cómo es la derivada/gradiente, sino cuantos cálculos he de guardar.
+
+![2024-10-23_18-41-56](media/2024-10-23_18-41-56.png)
+- Aquí lo importante es entender que:
+  - Cuando sumo una variable he de realizar 
 ## ¿Cómo se utilizan lo gradientes?
 * En un entrenamiento al final tenemos **y'** e **y**. 
 * Si agrupamos varios resultados (batch) podemos calcular una función de pérdida (L)
@@ -187,14 +191,18 @@ https://colah.github.io/posts/2015-08-Backprop/
 ![Screenshot-2024-10-20_12_22_24](Screenshot-2024-10-20_12_22_24.png)
 
 * Autofore es muy cómodo.
-* Se desarrolló haciendo cálculo simbólico.
-  * Tengo una versión con la segunda derivada
-  * No la he incluido porque no aporta.
-* Se usa para:
+* Autocontenida, import random,math,time
+* 247 líneas.
+* Se desarrolló realizando verificaciones cruzadas y usando la libería de diferenciación simbólica de python.
+    * simbolica->python->numpy->numba
+* Tengo una versión con la segunda derivada Hessiana para convergencia de Newton.
+* No la he incluido estas versiones porque no aportan.
+* Se usará para:
   - Desarrollar sistemas más rápidos (pruebas unitarias).
-  - Aprender.
+  - Aprender/Divulgar.
 
-En el ejemplo_red_neuronal_polinomios:
+
+Incluye un ejemplo_red_neuronal_polinomios:
 ```python
     # SISTEMA DE ECUACIONES y dimensiones
 
@@ -241,8 +249,34 @@ Así se computa la función del error.
 
 Nota: No se ha utilizado un lote. Lo ideal es acumular varios ejemplos y luego aplicarlo.
 
-# Prunning
-Ejecución de simpleTensorFlow.py
+# Pruning
+
+```python
+class Variable:
+    def __init__(self, nn):
+        self.nn=nn
+        self.value = 0
+
+    def pruning(self):
+        if self.nn.pruning==0:
+            return 
+        topDelta=[0]*self.nn.pruning
+        for delta in self.forward:
+            adelta=abs(delta)
+            for m,td in enumerate(topDelta):
+                if td<adelta:
+                    aux=topDelta[m]
+                    topDelta[m]=adelta
+                    adelta=aux
+        for i,delta in enumerate(self.forward):
+            adelta=abs(delta)
+            if adelta<topDelta[-1]:
+                self.forward[i]=0
+
+```
+Autofore incluye la capacidad de eliminar los pesos más significativos.
+
+## Ejecución de simpleTensorFlow.py
 
 ```python
     model=Sequential()
