@@ -1,10 +1,12 @@
 # Taller de Redes Neuronales.
 
-Automatic Differentiation: Dinamic Pruning in Forward Mode
+Automatic Differentiation: Dinamic Pruning in Forward Mode (DPFM)
 
-Fecha: Jueves 24 de 10:30 a 12:30 
-Lugar: Seminario de ATC 
-Impartido por: David Ragel Díaz-Jara
+| Fecha y Hora         |Jueves 24 de 10:30 a 12:30 
+| :------------ |:----|
+| Lugar         |Seminario de ATC 
+| Impartodo por |David Ragel Díaz-Jara
+
 
 # Hipótesis
 - Es posible desarrollar redes neuronales mas eficientes mediante el paralelismo que proporciona Dinamic Pruning in Forward Mode.
@@ -297,9 +299,13 @@ Autofore incluye la capacidad de eliminar los pesos más significativos.
   * Se testean 2,4,8,16,32,64, tamaño completo.
 * DinamicPrunningloss: 0.1763 - val_loss: 0.1557
 * TensorFlowloss: 0.2588 - val_loss: 0.2454
+  * Tensorflow no consigo replicarlo, es ligeramente menor, pero al final DPFM es mejor.
 
 Comparación transversar azul 16 registro. naranja sin limitacion. 250 épocas.
 ![Screenshot-2024-10-22_10_33_00](Screenshot-2024-10-22_10_33_00.png)
+Forma de interpretar la gráfica:
+- Si se alcanza el mínimo en training loss => tenemos el mínimo en validación.
+- Si nos plantamos en el mínimo significa que nos quedamos con el mínimo alcanzado.
 
 # Potencial de una FPGA
 * Tarda x10 567s vs 6,5 s de TensorFlow. (código python)
