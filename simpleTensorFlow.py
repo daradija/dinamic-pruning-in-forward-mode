@@ -13,32 +13,6 @@ import keras
 import time
 import matplotlib.pyplot as plt
 
-def report(pruning,loss,val_loss):
-
-    # Crear la gráfica
-    plt.figure(figsize=(8, 5))
-    plt.plot(pruning, loss, label='Training Loss', marker='o')
-    plt.plot(pruning, val_loss, label='Validation Loss', marker='s')
-
-    # Añadir títulos y etiquetas
-    plt.title('Training vs Validation Loss with Pruning')
-    plt.xlabel('Pruning Level')
-    plt.ylabel('Loss')
-    plt.legend()
-    plt.grid(True)
-    plt.xticks(pruning)
-
-    # Mostrar la gráfica
-    plt.show()
-
-
-#np.random.seed(42)  
-#tf.random.set_seed(42)
-
-ancho=4
-X = np.random.rand(200, ancho)  
-y = np.sum(X, axis=1, keepdims=True)  
-
 
 def createModel(capas=1):
     model=Sequential()
@@ -53,6 +27,46 @@ def createModel(capas=1):
     model.summary()
     # print(model.get_weights())
     return model
+
+class Report:
+    def __init__(self,xs,names):
+        self.xs=xs
+        self.names=names
+        self.ys=[[] for _ in range(len(names))]
+        self.voyy=0
+
+    def add(self,y):
+        self.ys[self.voyy].append(y)
+        self.voyy+=1
+        if self.voyy==len(self.names):
+            self.voyy=0
+
+    def print(self):
+        # Crear la gráfica
+        plt.figure(figsize=(8, 5))
+        # Recorrer las series en ys y graficar cada una con su respectivo nombre
+        for y_series, label in zip(self.ys, self.names):
+            plt.plot(self.xs, y_series, label=label, marker='o')
+
+        # Añadir títulos y etiquetas
+        plt.title('Series Plot')
+        plt.xlabel('X Axis')
+        plt.ylabel('Y Axis')
+        plt.legend()
+        plt.grid(True)
+        plt.xticks(self.xs)
+
+        # Mostrar la gráfica
+        plt.show()
+
+#np.random.seed(42)  
+#tf.random.set_seed(42)
+
+ancho=4
+X = np.random.rand(400, ancho) # 200, 50, 100, 400  
+y = np.sum(X, axis=1, keepdims=True)  
+
+
 
 
 # modelRef = createModel(0)
@@ -72,6 +86,8 @@ nns=[]
 
 
 
+
+
 if os.path.exists('model.h5') and False:
     model = tf.keras.models.load_model('model.h5')
 else:
@@ -81,12 +97,20 @@ else:
 
     epochs=250
 
-    #registers=[2, 4, 8, 16, 32, 64, 0]
-    registers=[16,0]
-    loss=[0]*len(registers)
-    val_loss=[0]*len(registers)
-    trasversal_1=[]
-    trasversal_2=[]
+    registers=[2, 4, 8, 16, 32, 64, 0]
+    #registers=[16,0]
+    # loss=[0]*len(registers)
+    # val_loss=[0]*len(registers)
+    # trasversal_1=[]
+    # trasversal_2=[]
+
+    rhorizontal=None
+    oldrhorizontal=None
+
+    registers2=list(registers)
+    registers2[-1]=128
+
+    rtrasversal=Report(range(1,epochs+1),registers)
     
     its=[]
     for prunning in registers:
@@ -97,18 +121,28 @@ else:
     cont=True
     while cont:
         try:
+            rhorizontal=Report(registers2,["Loss","Validation Loss"])
             for i,it in enumerate(its):
                 epoch,loss_,val_loss_=next(it)
-                loss[i]=loss_
-                val_loss[i]=val_loss_
-                if 16==registers[i]:
-                    trasversal_1.append(val_loss_)
-                if 0==registers[i]:
-                    trasversal_2.append(val_loss_)
+                rhorizontal.add(loss_)
+                rhorizontal.add(val_loss_)
+                rtrasversal.add(val_loss_)
+
+                # loss[i]=loss_
+                # val_loss[i]=val_loss_
+                # if 16==registers[i]:
+                #     trasversal_1.append(val_loss_)
+                # if 0==registers[i]:
+                #     trasversal_2.append(val_loss_)
+            oldrhorizontal=rhorizontal
         except StopIteration:
+            rhorizontal=oldrhorizontal
             cont=False
     print("Tiempo de entrenamiento1: ",time.time()-start)
     
+    rtrasversal.print()
+    rhorizontal.print()
+
     report(range(epochs),trasversal_1,trasversal_2)
 
     registers[-1]=128

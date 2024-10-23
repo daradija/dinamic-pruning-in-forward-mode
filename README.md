@@ -12,7 +12,7 @@ Impartido por: David Ragel Díaz-Jara
 - El modo forward permite una dinámica en las conexiones que no permite la backpropagation.
 
 # Metodología práctica.
-- Traeté tu portátil, a ser posible con nvidia.
+- Traete tu portátil, a ser posible con nvidia.
 - Todo el código en github.
 - Propondré retos concretos a los que quieran colaborar.
 - Alcance: Hasta donde permitan estas dos horas.
@@ -25,19 +25,19 @@ Impartido por: David Ragel Díaz-Jara
   - Topología básica de una red neuronal.
     - Producto escalar.
     - Activación sigmoide.
-  - Batchs, gradientes y minimizacion del error cuadrático medio.
+  - Batchs, gradientes y minimización del error cuadrático medio.
 
-- Prunning.
+- Pruning.
   - Latencia de tensorflow.
-  - Entender el potencial paralelizable y la infrautilizacion de recursos.
-  - En funciones sencillas el prunning es beneficioso.
+  - Entender el potencial paralelizable y la infrautilización de recursos.
+  - En funciones sencillas el pruning es beneficioso.
 
 - Desarrollo sin errores.
-  - Simbolico.
+  - Simbólico.
   - Python -> numpy.
   - numpy -> numba.
 
-- Harware (busco colaboradores)  
+- Hardware (busco colaboradores)  
   - Potencial de una FPGA.
   - Tensor RT y latencia.
   - Soñemos con una alternativa mas eficiente que NVIDIA.
@@ -83,7 +83,7 @@ $$
 * ¿PODEMOS IGNORAR LOS GRADIENTES PEQUEÑOS?
 * ¿PODEMOS IGNORAR LA CORRECCIÓN DE LOS PESOS QUE AFECTAN MENOS?
 ## Propuesta
-* Realizar un prunning dinámico y solo quedarse con los gradientes más significativos (mayor valor absoluto).
+* Realizar un pruning dinámico y solo quedarse con los gradientes más significativos (mayor valor absoluto).
 * Si el número de gradientes es fijo equivale al tamaño de una palabra del procesador.
   * Mayor tamaño, mayor precisión.
 * Las operaciones de derivadas se pueden hacer en paralelo.
@@ -273,5 +273,53 @@ Comparación transversar azul 16 registro. naranja sin limitacion. 250 épocas.
    - 4250 => 0.0424 ms.
      - 2 capas, 5 ejecuciones => 0.424 ms frente a los 6500 ms de Tensorflow.
 
-# Ejemplo LLM
-Modelos grandes como GPT-3 (con 175 mil millones de parámetros) pueden tardar semanas o meses en entrenarse, incluso utilizando cientos o miles de GPUs o TPUs en paralelo.
+He acelerado la inferencia x70. De 70ms a 1ms en pequeñas redes neuronales, empleando numpy en vez de tensorflow.
+Al realizar esta tarea descubrí TensorRT (real time) una solución de nvidia.
+
+Nota: Modelos grandes como GPT-3 (con 175 mil millones de parámetros) pueden tardar semanas o meses en entrenarse, incluso utilizando cientos o miles de GPUs o TPUs en paralelo.
+
+
+# Potencial de publicaciones.
+* Alternativa a NVIDIA.
+* Revisión de todas la arquitecturas de RRNN.
+  * No creo que sea una respuesta de blanco o negro, creo que será un depende.
+  * Quizá aprendizaje en tiempo real, empotrado.
+  * Aprendizaje distribuido.
+* Construcción de librerías.
+* Construcción de hardware. 
+
+# Pruebas
+¿Cómo se interpreta? 
+* si min loss => min val_los lo importante es el mínimo alcanzado.
+
+Con un corpus de 200:
+![Screenshot-2024-10-23_09_14_24](Screenshot-2024-10-23_09_14_24.png)
+
+Con un corpus de 50:
+![Screenshot-2024-10-23_09_52_38](Screenshot-2024-10-23_09_52_38.png)
+![Screenshot-2024-10-23_09_53_50](Screenshot-2024-10-23_09_53_50.png)
+
+Con corpus intermedio 100:
+![Screenshot-2024-10-23_10_17_29](Screenshot-2024-10-23_10_17_29.png)
+![Screenshot-2024-10-23_10_18_05](Screenshot-2024-10-23_10_18_05.png)
+
+
+con corpus de 400:
+![Screenshot-2024-10-23_12_56_58](Screenshot-2024-10-23_12_56_58.png)
+![Screenshot-2024-10-23_12_57_59](Screenshot-2024-10-23_12_57_59.png)
+
+# Conclusiones
+* Potencial de aceleración.
+* No solo es aceleración, sino mejora la validación.
+
+# Itinerario
+- Acelerar la librería de python.
+- Realizar pruebas con NMIST.
+- Publicar artículos.
+- Tesis doctoral.
+- Realizar prototipos con FPGAs.
+- Aprendizaje por 
+  - eventos
+  - modulación de umbrales de disparos.
+- Aplicación a robótica.
+- Aplicación a protocolos de conducción autónoma. 
