@@ -350,6 +350,9 @@ Con corpus intermedio 100:
 con corpus de 400:
 ![Screenshot-2024-10-23_12_56_58](Screenshot-2024-10-23_12_56_58.png)
 ![Screenshot-2024-10-23_12_57_59](Screenshot-2024-10-23_12_57_59.png)
+# Circuito de Toper
+Un sort quedandose con el top.
+![Screenshot-2024-10-24_10_00_28](Screenshot-2024-10-24_10_00_28.png)
 
 # Conclusiones
 * Potencial de aceleración.

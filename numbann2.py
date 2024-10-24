@@ -141,17 +141,29 @@ class NumbaNN:
 			for idx in range(self.weights.shape[1]):
 				# scalar product
 				c=np.dot(self.weights[i][idx],data)
-
 				data2[idx]=c
 
 				nn_c=self.nn.val(0)
 				for j in range(self.weights.shape[2]):
-					nn_c+=self.nn_weights[i][idx][j]*self.nn_data[j]
+					w=self.nn_weights[i][idx][j]
+					nn_c+=w*self.nn_data[j]
+
+					print(nn_c.get(w),self.nn_data[j].value)
+
+					for name,value in  enumerate(self.nn_data[j].forward):
+						# quiero ver como se transforma en nn_c
+						if value!=0:
+							print(name,value,nn_c.forward[name],value*w.value)
+
 
 				# Cálculo del gradiente
 				# asigna, 
-				gdata2[:]=gdata[:]
-				gid2[:]=gid[:]
+				
+				# Copia todos multiplicando
+				# introduce el peso
+				for j in range(len(gdata)):
+					gdata2[j]=gdata[j]*self.weights[i][idx][j]
+					gid2[j]=gid[j]
 
 				# Recorre el producto escalar
 				for j in range(self.weights.shape[2]):
@@ -166,15 +178,15 @@ class NumbaNN:
 					assert abs(g0-cc)<0.001
 
 					# ve del inicio al final y añade el nuevo gradiente si es mayor.
-					id=self.wids[i][j][idx]
-					for k,g in enumerate(gdata[j]):
-						if g<g0:
-							gdata2[i][k]=cc
-							g0=g
+					# id=self.wids[i][idx][j]
+					# for k,g in enumerate(gdata[j]):
+					# 	if g<g0:
+					# 		gdata2[i][k]=cc
+					# 		g0=g
 
-							aux=gid2[j][k]
-							gid2[j][k]=id
-							id=aux
+					# 		aux=gid2[j][k]
+					# 		gid2[j][k]=id
+					# 		id=aux
 				
 
 				nn_c.pruning()
@@ -190,15 +202,15 @@ class NumbaNN:
 					
 					# link=(4 * np.cosh(v.value / 2)**2)
 					# v.forward[name]+=value / link
-					for k,g in enumerate(gdata2[i]):
-						gdata2[i][k]=g/link
+					# for k,g in enumerate(gdata2[i]):
+					# 	gdata2[i][k]=g/link
 						
-						# como hacer el assert?
-						# id -> localiza gradiente
-						tupla=self.wid2tuple[gid2[i][k]]
-						w=self.nn_weights[tupla[0]][tupla[1]][tupla[2]]
-						print(gdata2[i][k],nn_data2[idx].get(w))
-						assert abs(gdata2[i][k]-nn_data2[idx].get(w))<0.001
+					# 	# como hacer el assert?
+					# 	# id -> localiza gradiente
+					# 	tupla=self.wid2tuple[gid2[i][k]]
+					# 	w=self.nn_weights[tupla[0]][tupla[1]][tupla[2]]
+					# 	print(gdata2[i][k],nn_data2[idx].get(w))
+					# 	assert abs(gdata2[i][k]-nn_data2[idx].get(w))<0.001
 
 
 			
