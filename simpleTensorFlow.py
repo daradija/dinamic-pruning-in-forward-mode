@@ -7,7 +7,7 @@ from tensorflow.keras.layers import Dense
 from tensorflow.keras.optimizers import SGD
 import numpy as np
 from sklearn.model_selection import train_test_split
-from numbann import NumbaNN
+from numbann2 import NumbaNN
 import os
 import keras
 import time
@@ -15,6 +15,12 @@ import matplotlib.pyplot as plt
 
 
 def createModel(capas=1):
+    modelName='model.h5'
+    # if exists('model.h5'): load
+    if os.path.exists(modelName):
+        model = tf.keras.models.load_model('model.h5')
+        return model
+
     model=Sequential()
     model.add(Dense(5, input_dim=ancho, activation='sigmoid'))
     for c in range(capas):
@@ -26,6 +32,8 @@ def createModel(capas=1):
     model.compile(optimizer=SGD(), loss='mean_squared_error')
     model.summary()
     # print(model.get_weights())
+    # save model
+    model.save(modelName)
     return model
 
 class Report:
@@ -59,8 +67,8 @@ class Report:
         # Mostrar la gráfica
         plt.show()
 
-#np.random.seed(42)  
-#tf.random.set_seed(42)
+np.random.seed(42)  
+tf.random.set_seed(42)
 
 ancho=4
 X = np.random.rand(400, ancho) # 200, 50, 100, 400  
@@ -73,7 +81,7 @@ y = np.sum(X, axis=1, keepdims=True)
 # nnRef=NumbaNN(modelRef)
 # y=nnRef.predict(X)
 
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2) #, random_state=42)
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
 nns=[]
 
@@ -97,7 +105,7 @@ else:
 
     epochs=250
 
-    registers=[2, 4, 8, 16, 32, 64, 0]
+    registers=[64, 4, 8, 16, 32, 64, 0]
     #registers=[16,0]
     # loss=[0]*len(registers)
     # val_loss=[0]*len(registers)
